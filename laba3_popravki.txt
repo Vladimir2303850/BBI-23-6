@@ -1,0 +1,224 @@
+//2.11
+int number = int.Parse(Console.ReadLine());
+
+double[] numbers = new double[number];
+
+double P = Convert.ToDouble(Console.ReadLine());
+
+for (int i = 0; i < number; i++)
+{
+    numbers[i] = Convert.ToDouble(Console.ReadLine());
+}
+
+int last_index = 0;
+for (int i = 0; i < numbers.Length; i++)
+{
+    if (numbers[i] > 0)
+    {
+        last_index = i;
+    }
+}
+
+double[] new_list = new double[number+1];
+if (last_index >= 0)
+{
+    for (int i = 0; i< number + 1; i++)
+    {
+        if (i != last_index)
+        {
+            new_list[i] = numbers[i];
+        }
+        else
+        {
+            new_list[i] = P;
+        }
+    }
+}
+else
+{
+    Console.WriteLine("В массиве нет положительных элементов.");
+}
+
+for (int i = 0; i< number + 1; i++) 
+{
+    Console.Write(number + " ");
+}
+Console.ReadKey();
+
+//2.12
+int number = int.Parse(Console.ReadLine());
+
+double[] list = new double[number];
+
+double P = Convert.ToDouble(Console.ReadLine());
+
+for (int i = 0; i < number; i++)
+{
+    list[i] = Convert.ToDouble(Console.ReadLine());
+}
+double first_otric = 0;
+double sum = 0;
+double max_number = -1000000000000;
+int first_otric_index = -1;
+int max_number_index = 0;
+
+for (int i = 0; i < list.Length; i++)
+{
+    if (list[i] < 0 & first_otric == 0)
+    {
+        first_otric = list[i];
+        first_otric_index = i;
+    }
+    if (list[i] > max_number)
+    {
+        max_number = list[i];
+        max_number_index = i;
+    }
+}
+
+for (int i = max_number_index + 1; i < list.Length; i++)
+{
+    sum += list[i];
+}
+if (first_otric_index != -1)
+{
+    list[first_otric_index] = sum;
+}
+
+
+for (int i = 0; i< number; i++) 
+{
+    Console.Write(list[i] + " ");
+}
+Console.ReadKey();
+
+//2.14
+int number = int.Parse(Console.ReadLine());
+double[] list = new double[number];
+double max_number = -100000000000000000;
+int max_number_index = -1;
+double first_otric = 0;
+int first_otric_index = -1;
+
+for (int i = 0; i < number; i++)
+{
+    list[i] = Convert.ToInt32(Console.ReadLine());
+    if (list[i] > max_number)
+    {
+        max_number = list[i];
+        max_number_index = i;
+    }
+    if (list[i] < 0 & first_otric == 0)
+    {
+        first_otric = list[i];
+        first_otric_index = i;
+    }
+}
+
+if (max_number != -1 & first_otric_index != -1)
+{
+    list[max_number_index] = first_otric;
+    list[first_otric_index] = max_number; 
+}
+else
+{
+    Console.WriteLine("Отсутствует один из элементов условия - повторите ввод");
+}
+
+for (int i = 0; i< number; i++) 
+{
+    Console.Write(list[i] + " ");
+}
+Console.ReadKey();
+
+//2.15
+int n = int.Parse(Console.ReadLine());
+double[] a = new double[n];
+for (int i = 0; i < n; ++i)
+{
+    a[i] = Convert.ToDouble(Console.ReadLine());
+}
+    
+int m = int.Parse(Console.ReadLine());
+double[] b = new double[m];
+
+for (int i = 0; i < m; ++i)
+{
+    b[i] = Convert.ToDouble(Console.ReadLine());
+}
+double[] c = new double[m + n];
+int k = int.Parse(Console.ReadLine());
+for (int i = 0; i <= k; ++i)
+{
+    c[i] = a[i];
+}
+for (int i = 0; i < m; ++i)
+{
+    c[i + k + 1] = b[i];
+}
+for (int i = k + 1; i < n; ++i)
+{
+    c[i + m] = a[i];
+}
+for (int i = 0; i < c.Length; ++i)
+{
+    Console.Write($"{c[i]} ");
+}
+Console.ReadKey();
+
+//2.17
+int number = int.Parse(Console.ReadLine());
+double[] list = new double[number];
+double max_number = -1000000000;
+int max_number_index = -1;
+double min_number = 10000000000000;
+int min_number_index = -1;
+double average = 0;
+for (int i = 0; i < number; i++)
+{
+    list[i] = Convert.ToDouble(Console.ReadLine());
+    if (list[i] > max_number)
+    {
+        max_number = list[i];
+        max_number_index = i;
+    }
+    if (list[i] < min_number)
+    {
+        min_number = list[i];
+        min_number_index = i;
+    }
+}
+double sum = 0;
+int counter = 0;
+if (max_number_index < min_number_index)
+{
+    for (int i = 0; i < number; i++)
+    {
+        if (list[i] > 0)
+        {
+            sum += list[i];
+            counter += 1;
+        }
+    }
+}
+if (max_number_index > min_number_index)
+    {
+        for (int i = 0; i < number; i++)
+        {
+            if (list[i] < 0)
+            {
+                sum += list[i];
+                counter += 1;
+            }
+        }
+    }
+if (counter == 0)
+{
+    Console.WriteLine("По условию невозможно, так как возникает деление на 0");
+}
+else
+{
+    average = sum / counter;
+    Console.WriteLine(average);
+}
+Console.ReadKey();
