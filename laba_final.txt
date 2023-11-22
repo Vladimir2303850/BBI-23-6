@@ -1,0 +1,78 @@
+//2.11
+int number = int.Parse(Console.ReadLine());
+int[] list = new int[number];
+int p = int.Parse(Console.ReadLine());
+int last_index = -1;
+for (int i = 0; i < number; i++)
+{
+    string s = Console.ReadLine();
+    list[i] = int.Parse(s);
+    if (list[i] > 0)
+    {
+        last_index = i;
+    }
+}
+if (last_index >= 0)
+{
+    int[] new_list = new int[number + 1];
+    for (int i = 0; i <= last_index; i++)
+    {
+        new_list[i] = list[i];
+    }
+    new_list[last_index + 1] = p;
+    for (int i = last_index + 2; i < number + 1; i++)
+    {
+        new_list[i] = list[i - 1];
+    }
+    list = new_list;
+    for (int i = 0; i < number + 1; i++)
+    {
+        Console.Write("{0} ", list[i]);
+    }
+}
+else
+{
+    Console.WriteLine("В массиве нет положительных элементов");
+}
+
+//2.15
+int n = int.Parse(Console.ReadLine());
+int[] a = new int[n];
+for (int i = 0; i < n; i++)
+{
+    string s = Console.ReadLine();
+    a[i] = int.Parse(s);
+}
+int m = int.Parse(Console.ReadLine());
+int[] b = new int[m];
+for (int i = 0; i < m; i++)
+{
+    string s1 = Console.ReadLine();
+    b[i] = int.Parse(s1);
+}
+int[] c = new int[n + m];
+int k = int.Parse(Console.ReadLine());
+if (k >= a.Length)
+{
+    Console.WriteLine("Не существует такого элемента в массиве а");
+}
+else
+{
+    for (int i = 0; i <= k; i++)
+    {
+        c[i] = a[i];
+    }
+    for (int i = 0; i < m; i++)
+    {
+        c[k + i + 1] = b[i];
+    }
+    for (int i = k + m + 1; i < m + n; i++)
+    {
+        c[i] = a[i - m];
+    }
+    Console.WriteLine("Получившийся массив: ");
+    for (int i = 0; i < m + n; i++)
+    {
+        Console.WriteLine(c[i]);
+    }
+}
