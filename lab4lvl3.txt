@@ -1,0 +1,83 @@
+//3.2
+ws = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите количество столбцов матрицы:");
+        int columns = Convert.ToInt32(Console.ReadLine());
+        double[,] matrix = new double[rows, columns];
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+                matrix[i, j] = Convert.ToDouble(Console.ReadLine());
+            }
+        }
+        
+        for (int i = 0;i < rows; i++)
+        {
+            for (int j = 0;j < columns; j++)
+            {
+                if (i == 0)
+                {
+                    matrix[i, j] = 0;
+                }
+                if (j == 0)
+                {
+                    matrix[i, j] = 0;
+                }
+                if (j == columns-1)
+                {
+                    matrix[i, j] = 0;
+                }
+                if (i == rows-1)
+                {
+                    matrix[i, j] = 0;
+                }
+            }
+        }
+
+        for (int d = 0; d < rows; d++)
+        {
+            for (int h = 0; h < columns; h++)
+            {
+                Console.Write($"{matrix[d, h]} ");
+            }
+            Console.WriteLine();
+        }
+        Console.ReadKey();
+
+//3.4
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+int[,] matrix = new int[rows, columns];
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {       
+        if ((i >= rows / 2) && (j > columns / 2) && (i != j) && (i<j))
+        {
+            matrix[i, j] = 1;
+        }
+        
+    }
+}
+
+for (int d = 0; d < rows; d++)
+{
+    for (int h = 0; h < columns; h++)
+    {
+        Console.Write($"{matrix[d, h]} ");
+    }
+    Console.WriteLine();
+}
+Console.ReadKey();

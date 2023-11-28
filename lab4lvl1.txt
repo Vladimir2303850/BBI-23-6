@@ -1,0 +1,392 @@
+//1.4
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+int[,] matrix = new int[rows, columns];
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+
+
+int minElement = matrix[0, 0];
+int minRow = 0;
+int minColumn = 0;
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        if (matrix[i, j] < minElement)
+        {
+            minElement = matrix[i, j];
+            minRow = i;
+            minColumn = j;
+        }
+    }
+}
+Console.WriteLine($"Минимальный элемент: {minElement}");
+Console.WriteLine($"Строка: {minRow}, Столбец: {minColumn}");
+Console.ReadKey();
+
+//1.8
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+int[,] matrix = new int[rows, columns];
+double[] average_rows = new double[rows];
+int last_i = 0;
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToInt32(Console.ReadLine());
+        if (i == last_i)
+        {
+            average_rows[i] += matrix[i, j];
+        }
+        else
+        {
+            last_i++;
+            average_rows[i] += matrix[i, j];
+        }
+    }
+}
+
+for (int i = 0;i < average_rows.Length; i++) 
+{
+    Console.Write($"{average_rows[i]/3} ");
+}
+Console.ReadKey();
+
+//1.12
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+int[,] matrix = new int[rows, columns];
+double max_element = -1000000000;
+int maxElementRow = 0, maxElementColumn = 0;
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToInt32(Console.ReadLine());
+        if (matrix[i,j] > max_element)
+        { 
+            max_element = matrix[i,j];
+            maxElementRow = i;
+            maxElementColumn = j;
+        }
+    }
+}
+
+int[,] newMatrix = new int[rows - 1, columns - 1];
+
+for (int i = 0, r = 0; i < rows; i++)
+{
+    if (i == maxElementRow) continue;
+
+    for (int j = 0, c = 0; j < columns; j++)
+    {
+        if (j == maxElementColumn) continue;
+
+        newMatrix[r, c] = matrix[i, j];
+        c++;
+    }
+    if (i != maxElementRow) r++;
+}
+
+for (int i = 0; i < newMatrix.GetLength(0); i++)
+{
+    for (int j = 0; j < newMatrix.GetLength(1); j++)
+    {
+        Console.Write(newMatrix[i, j] + " ");
+    }
+    Console.WriteLine();
+}
+Console.ReadKey();
+
+//1.16
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+int[,] matrix = new int[rows, columns];
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+ 
+for (int i = 0; i < rows; i++)
+{
+    double max_elem = -100000;
+    int i_max = -1;
+    for (int j = 0; j < columns; j++)
+    {
+        if (matrix[i, j] > max_elem)
+        {
+            max_elem = matrix[i, j];
+            i_max = j;
+        }
+    }
+    int p = 0;
+    for (int j = i_max + 1; j < columns; j++)
+    {
+        p = matrix[i, j - 1];
+        matrix[i, j - 1] = matrix[i, j];
+        matrix[i, j] = p;
+    }
+
+}
+
+for(int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"{matrix[i, j]} ");
+    }
+    Console.WriteLine();
+}
+Console.ReadKey();
+
+//1.20
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+double[,] matrix = new double[rows, columns];
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToDouble(Console.ReadLine());
+    }
+}
+for (int i = 0; i < rows; i++)
+{
+    double max_element = -1000000;
+    int max_element_index = -1;
+    int first_otric_index = 0;
+    int last_otric_index = 0;
+    for (int j = 0;j < columns; j++)
+    {
+        if (matrix[i, j] < 0 && first_otric_index == -1)
+        {
+            first_otric_index = j;
+        }
+        if (matrix[i,j] < 0)
+        {
+            last_otric_index = j;
+        }
+        if (matrix[i,j] > max_element)
+        {
+            max_element = matrix[i,j];
+            max_element_index = j;
+        }
+    }
+    matrix[i, max_element_index] = (matrix[i, first_otric_index] + matrix[i, last_otric_index]) / 2;
+}
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"{matrix[i, j]} ");
+    }
+    Console.WriteLine();
+}
+Console.ReadKey();
+//2.24
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+double[,] matrix = new double[rows, columns];
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+
+for (int i = 0;i < rows;i++)
+{
+    double max_element = -10000000;
+    int max_element_index = -1;
+    double sum_positive_numbers = 0;
+    int positive_numbers_counter = 0;
+    for (int j = 0; j < columns; j++)
+    {
+        if (matrix[i,j] > max_element)
+        {
+            max_element = matrix[i,j];
+            max_element_index = j;
+        }
+    }
+    
+    for (int k = max_element_index+1; k < columns; k++)
+    {
+        if (matrix[i,k] > 0)
+        {
+            sum_positive_numbers += matrix[i, k];
+            positive_numbers_counter += 1;
+            
+        }
+    }
+    
+    if (positive_numbers_counter == 0)
+    {
+        for (int l = 0; l < columns; l++)
+        {
+            if (matrix[i, l] < 0)
+            {
+                matrix[i, l] = 0;
+
+            }
+        }
+    }
+    else
+    {
+        for (int l = 0; l < columns; l++)
+        {
+            if (matrix[i, l] < 0)
+            {
+                matrix[i, l] = sum_positive_numbers/positive_numbers_counter;
+            }
+        }
+    }
+    
+}
+for (int d = 0; d < rows; d++)
+{
+    for (int h = 0; h < columns; h++)
+    {
+        Console.Write($"{matrix[d, h]} ");
+    }
+    Console.WriteLine();
+}
+Console.ReadKey();
+
+//2.28
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+int[,] matrix = new int[rows, columns];
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+int max_positive_line_sum = -10000000;
+int max_positive_line_index = -1;
+
+for (int i = 0; i < rows; i++)
+{
+    int sum = 0;
+    for (int j = 0; j < columns; j++)
+    {
+        if (matrix[i, j] > 0)
+        {
+            sum += matrix[i, j];
+        }
+    }
+    if (sum > max_positive_line_sum)
+    {
+        max_positive_line_sum = sum;
+        max_positive_line_index = i;
+    }
+}
+double[,] matrix2 = new double[rows - 1, columns];
+for (int i = 0; i < rows; i++)
+{
+    if (i < max_positive_line_index)
+    {
+        for (int j = 0; j < columns; ++j)
+        {
+            matrix2[i, j] = matrix[i, j];
+        }
+    }
+    else if (i > max_positive_line_index)
+    {
+        for (int j = 0; j < columns; ++j)
+        {
+            matrix2[i - 1, j] = matrix[i, j];
+        }
+    }
+}
+for (int d = 0; d < rows-1; d++)
+{
+    for (int h = 0; h < columns; h++)
+    {
+        Console.Write($"{matrix[d, h]} ");
+    }
+    Console.WriteLine();
+}
+Console.ReadKey();
+
+//2.32
+Console.WriteLine("Введите количество строк матрицы:");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов матрицы:");
+int columns = Convert.ToInt32(Console.ReadLine());
+double[,] matrix = new double[rows, columns];
+for (int i = 0; i < rows; i++)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+        matrix[i, j] = Convert.ToDouble(Console.ReadLine());
+    }
+}
+for (int i = 0;i < rows; i++)
+{
+    double sum = 0;
+    int positive_counter = 0;
+    double max_element = -10000000;
+    int max_element_index = -1;
+    for (int j = 0; j < columns; j++)
+    {
+        if (matrix[i, j] > 0)
+        {
+            sum += matrix[i, j];
+            positive_counter++;
+        }
+        if (matrix[i, j] > max_element)
+        {
+            max_element = matrix[i, j];
+            max_element_index = j;
+        }
+    }
+    if (positive_counter != 0)
+    {
+        matrix[i, max_element_index] = sum/positive_counter;
+    }
+}
+
+for (int d = 0; d < rows; d++)
+{
+    for (int h = 0; h < columns; h++)
+    {
+        Console.Write($"{matrix[d, h]} ");
+    }
+    Console.WriteLine();
+}
+Console.ReadKey();
