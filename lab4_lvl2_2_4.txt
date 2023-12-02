@@ -1,0 +1,60 @@
+using System;
+using System.Configuration;
+using System.Xml.Schema;
+
+class Program
+{
+    static void Main()
+    {
+        //2.4
+        Console.WriteLine("Введите количество строк матрицы:");
+        int rows = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите количество столбцов матрицы:");
+        int columns = Convert.ToInt32(Console.ReadLine());
+        double[,] matrix = new double[rows, columns];
+        double[] B = new double[5];
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                Console.Write($"Введите элемент матрицы [{i}, {j}]: ");
+                matrix[i, j] = Convert.ToDouble(Console.ReadLine());
+            }
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            Console.Write($"Введите элемент списка B [{i}]: ");
+            B[i] = Convert.ToDouble(Console.ReadLine());
+        }
+        for (int i = 0; i < rows; i++)
+        {
+            double max_number = -100000;
+            int max_number_index = -1;
+            for (int j = 0; j < columns; j++)
+            {
+                if (matrix[i, j] > max_number)
+                {
+                    max_number = matrix[i, j];
+                    max_number_index = j;
+                }
+            }
+            if (B[max_number_index] > max_number)
+            {
+                matrix[i, max_number_index] = B[i];
+            }
+          
+            
+        }
+
+        for (int d = 0; d < rows; d++)
+        {
+            for (int h = 0; h < columns; h++)
+            {
+                Console.Write($"{matrix[d, h]} ");
+            }
+            Console.WriteLine();
+        }
+        Console.ReadKey();
+
+    }
+}
