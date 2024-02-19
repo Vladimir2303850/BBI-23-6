@@ -1,0 +1,187 @@
+//1.5
+
+using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
+
+struct Marks1
+{
+    private string surname;
+    private int mark;
+    private int skips;
+    public String Surname { get { return surname; } }
+    public int Mark { get { return mark; } }
+    public int Skips { get { return skips; } }
+    public Marks1(string surname1, int mark1, int skips1)
+    {
+        surname = surname1;
+        mark = mark1;
+        skips = skips1;
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите количество студентов");
+        int number = Convert.ToInt32(Console.ReadLine());
+        Marks1[] st = new Marks1[number];
+        for (int i = 0; i < number; i++)
+        {
+            Console.WriteLine("Введите фамилию студента");
+            string last_name = Convert.ToString(Console.ReadLine());
+            int mark = -1;
+            while (mark < 0 || mark > 5 || mark == 1)
+            {
+                Console.WriteLine("Введите оценку студента (0, 2, 3, 4, 5):");
+                mark = Convert.ToInt32(Console.ReadLine());
+                if (mark < 0 || mark > 5 || mark == 1)
+                {
+                    Console.WriteLine("Пожалуйста, введите корректную оценку.");
+                }
+            }
+            Console.WriteLine("Введите количество пропущенный занятий");
+            int lessons = Convert.ToInt32(Console.ReadLine());
+            st[i] = new Marks1(last_name, mark, lessons);
+        }
+        Array.Sort(st, delegate (Marks1 x, Marks1 y)
+        {
+            if (x.Mark == 2 && y.Mark == 2)
+            {
+                return x.Skips.CompareTo(y.Skips);
+            }
+            return 0;
+        });
+
+        foreach (Marks1 student in st)
+        {
+            if (student.Mark == 2)
+            {
+                Console.WriteLine($"Фамилия: {student.Surname}, Оценка: {student.Mark}, Пропуски: {student.Skips}");
+            }
+        }
+        Console.ReadKey();
+    }
+}
+
+//2.7
+using System;
+using System.Collections.Generic;
+
+struct Marks1
+{
+    public string surname;
+    public double mark;
+    public String Surname { get { return surname; } }
+    public double Mark { get { return mark; } }
+    public Marks1(string surname1, double mark1)
+    {
+        surname = surname1;
+        mark = mark1;
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите количество участников");
+        int number = Convert.ToInt32(Console.ReadLine());
+        Marks1[] part = new Marks1[number];
+        for (int i = 0; i < number; i++)
+        {
+            Console.WriteLine("Введите фамилию участника");
+            string last_name = Convert.ToString(Console.ReadLine());
+            double mark = -1;
+            while (mark != 0 && mark != 0.5 && mark != 1)
+            {
+                Console.WriteLine("Введите оценку студента (0; 0,5; 1):");
+                mark = Convert.ToDouble(Console.ReadLine());
+                if (mark != 0 && mark != 0.5 && mark != 1)
+                {
+                    Console.WriteLine("Пожалуйста, введите корректную оценку.");
+                }
+            }
+            part[i] = new Marks1(last_name, mark);
+        }
+        Array.Sort(part, delegate (Marks1 x, Marks1 y)
+        {
+            return x.Mark.CompareTo(y.Mark);
+
+        });
+
+        foreach (Marks1 participant in part)
+        {
+            Console.WriteLine($"Фамилия: {participant.Surname}, Оценка: {participant.Mark}");
+        }
+        Console.ReadKey();
+    }
+}
+
+//3.1
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+public struct Session
+{
+    private string group_number;
+    private int mark1, mark2, mark3, mark4, mark5;
+    private double average;
+    public Double Average { get { return average; } }
+    public String Group_number { get { return group_number; } }
+    public Session(string group_number1, int mark11, int mark22, int mark33, int mark44, int mark55, double average1)
+    {
+        group_number = group_number1;
+        mark1 = mark11;
+        mark2 = mark22;
+        mark3 = mark33;
+        mark4 = mark44;
+        mark5 = mark55;
+        average = average1;
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите количество групп:");
+        int number = Convert.ToInt32(Console.ReadLine());
+        Session[] sess = new Session[number];
+        for (int i = 0; i < number; i++)
+        {
+            Console.WriteLine("Введите номер группы");
+            string group_number = Convert.ToString(Console.ReadLine());
+            int mark11 = Mark_input();
+            int mark22 = Mark_input();
+            int mark33 = Mark_input();
+            int mark44 = Mark_input();
+            int mark55 = Mark_input();
+            double average1 = (mark11 + mark22 + mark33 + mark44 + mark55) / 5;
+            sess[i] = new Session(group_number, mark11, mark22, mark33, mark44, mark55, average1);
+        }
+        Array.Sort(sess, delegate (Session x, Session y)
+        {
+            return y.Average.CompareTo(x.Average);
+        });
+        Console.WriteLine("Группа Средняя оценка");
+        foreach (Session group in sess)
+        {
+            Console.WriteLine($"{group.Group_number}      {group.Average}");
+        }
+        Console.ReadKey();
+    }
+    public static int Mark_input()
+    {
+        int mark = 1;
+        while (mark < 2 || mark > 5)
+        {
+            Console.WriteLine("Введите оценку студента (2; 3; 4; 5):");
+            mark = Convert.ToInt32(Console.ReadLine());
+            if (mark < 2 || mark > 5)
+            {
+                Console.WriteLine("Пожалуйста, введите корректную оценку.");
+            }
+        }
+        return mark;
+    }
+}
