@@ -1,0 +1,209 @@
+1.5
+using System;
+ 
+abstract class Marks
+{
+    protected string surname;
+    protected int mark;
+    protected int skips;
+ 
+    public abstract void Print();
+ 
+    protected Marks(string surname, int mark, int skips)
+    {
+        this.surname = surname;
+        this.mark = mark;
+        this.skips = skips;
+    }
+}
+ 
+class ComputerScience : Marks
+{
+    public ComputerScience(string surname, int mark, int skips) : base(surname, mark, skips) { }
+ 
+    public override void Print() //переопределяю
+    {
+        Console.WriteLine($"Информатика: {surname} - Оценка: {mark}, Пропуски: {skips}");
+    }
+}
+ 
+class Mathematics : Marks
+{
+    public Mathematics(string surname, int mark, int skips) : base(surname, mark, skips) { }
+ 
+    public override void Print() //переопределяю
+    {
+        Console.WriteLine($"Математика: {surname} - Оценка: {mark}, Пропуски: {skips}");
+    }
+}
+ 
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите количество студентов");
+        int number = Convert.ToInt32(Console.ReadLine());
+        ComputerScience[] computerScienceStudents = new ComputerScience[number];
+        Mathematics[] mathematicsStudents = new Mathematics[number];
+ 
+        for (int i = 0; i < number; i++)
+        {
+            Console.WriteLine("Введите фамилию студента");
+            string lastName = Convert.ToString(Console.ReadLine());
+ 
+            Console.WriteLine("Введите оценку студента (0, 2, 3, 4, 5):");
+            int mark = Convert.ToInt32(Console.ReadLine());
+ 
+            Console.WriteLine("Введите количество пропущенных занятий");
+            int skips = Convert.ToInt32(Console.ReadLine());
+ 
+            computerScienceStudents[i] = new ComputerScience(lastName, mark, skips);
+            mathematicsStudents[i] = new Mathematics(lastName, mark, skips);
+        }
+ 
+        Console.WriteLine("Студенты по информатике:");
+        foreach (var student in computerScienceStudents)
+        {
+            student.Print();
+        }
+ 
+        Console.WriteLine("Студенты по математике:");
+        foreach (var student in mathematicsStudents)
+        {
+            student.Print();
+        }
+ 
+        Console.ReadKey();
+    }
+}
+
+2.7
+
+using System;
+ 
+class Person
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+}
+ 
+class Athlete : Person
+{
+    public int ID { get; set; }
+    public double Score { get; set; }
+}
+ 
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите количество участников:");
+        int count = Convert.ToInt32(Console.ReadLine());
+ 
+        Athlete[] participants = new Athlete[count];
+ 
+        for (int i = 0; i < count; i++)
+        {
+            Console.WriteLine($"\nУчастник {i + 1}:");
+            Console.WriteLine("Введите имя:");
+            string firstName = Console.ReadLine();
+            Console.WriteLine("Введите фамилию:");
+            string lastName = Console.ReadLine();
+            Console.WriteLine("Введите идентификатор:");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Введите балл:");
+            double score = -1;
+            while (score != 0 && score != 0.5 && score != 1)
+            {
+                Console.WriteLine("Введите оценку спортсмена (0; 0,5; 1):");
+                score = Convert.ToDouble(Console.ReadLine());
+                if (score != 0 && score != 0.5 && score != 1)
+                {
+                    Console.WriteLine("Пожалуйста, введите корректную оценку.");
+                }
+            }
+ 
+            participants[i] = new Athlete { FirstName = firstName, LastName = lastName, ID = id, Score = score };
+        }
+ 
+        Array.Sort(participants, (x, y) => x.Score.CompareTo(y.Score));
+ 
+        Console.WriteLine("\nТаблица участников:");
+        Console.WriteLine("--------------------------------------------------");
+        foreach (Athlete participant in participants)
+        {
+            Console.WriteLine($"ФИО: {participant.FirstName} {participant.LastName}, ИД: {participant.ID}, Балл: {participant.Score}");
+        }
+        
+        Console.ReadKey();
+    }
+}
+
+3.1
+using System;
+ 
+public class Group
+{
+    public int Math { get; set; }
+    public int Physics { get; set; }
+    public int Chemistry { get; set; }
+ 
+    public virtual double CalculateAverage()
+    {
+        return (Math + Physics + Chemistry) / 3.0;
+    }
+}
+ 
+public class GroupA : Group
+{
+    public int English { get; set; }
+    public int History { get; set; }
+ 
+    public override double CalculateAverage()
+    {
+        return (Math + Physics + Chemistry + English + History) / 5.0;
+    }
+}
+ 
+public class GroupB : Group
+{
+    public int Biology { get; set; }
+    public int Geography { get; set; }
+ 
+    public override double CalculateAverage()
+    {
+        return (Math + Physics + Chemistry + Biology + Geography) / 5.0;
+    }
+}
+ 
+public class GroupC : Group
+{
+    public int Literature { get; set; }
+    public int Art { get; set; }
+ 
+    public override double CalculateAverage()
+    {
+        return (Math + Physics + Chemistry + Literature + Art) / 5.0;
+    }
+}
+ 
+class Program
+{
+    static void Main(string[] args)
+    {
+        GroupA groupA = new GroupA { Math = 80, Physics = 75, Chemistry = 85, English = 90, History = 70 };
+        GroupB groupB = new GroupB { Math = 85, Physics = 78, Chemistry = 88, Biology = 92, Geography = 82 };
+        GroupC groupC = new GroupC { Math = 78, Physics = 72, Chemistry = 80, Literature = 85, Art = 88 };
+ 
+        Group[] groups = new Group[] { groupA, groupB, groupC };
+ 
+        Console.WriteLine("Студенты всех групп:");
+ 
+        foreach (Group group in groups)
+        {
+            Console.WriteLine($"Средний балл группы: {group.CalculateAverage()}");
+        }
+ 
+        Console.ReadKey();
+    }
+}
