@@ -1,0 +1,162 @@
+2.7
+using System;
+
+class Person
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+}
+
+class Athlete : Person
+{
+    private static int nextID = 1;
+    public int ID { get; private set; }
+    public double Score { get; set; }
+
+    public Athlete(string firstName, string lastName, double score)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        ID = nextID++;
+        Score = score;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите количество участников:");
+        int count = Convert.ToInt32(Console.ReadLine());
+
+        Athlete[] participants = new Athlete[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            Console.WriteLine($"\nУчастник {i + 1}:");
+            Console.WriteLine("Введите имя:");
+            string firstName = Console.ReadLine();
+            Console.WriteLine("Введите фамилию:");
+            string lastName = Console.ReadLine();
+            double score = -1;
+
+            while (score != 0 && score != 0.5 && score != 1)
+            {
+                Console.WriteLine("Введите оценку спортсмена (0; 0.5; 1):");
+                score = Convert.ToDouble(Console.ReadLine());
+                if (score != 0 && score != 0.5 && score != 1)
+                {
+                    Console.WriteLine("Пожалуйста, введите корректную оценку.");
+                }
+            }
+
+            participants[i] = new Athlete(firstName, lastName, score);
+        }
+
+        Array.Sort(participants, (x, y) => x.Score.CompareTo(y.Score));
+
+        Console.WriteLine("\nТаблица участников:");
+        Console.WriteLine("--------------------------------------------------");
+        foreach (Athlete participant in participants)
+        {
+            Console.WriteLine($"ФИО: {participant.FirstName} {participant.LastName}, ИД: {participant.ID}, Балл: {participant.Score}");
+        }
+
+        Console.ReadKey();
+    }
+}
+
+3.1
+using System;
+
+public class Group
+{
+    private int math;
+    private int physics;
+    private int chemistry;
+
+    public Group(int math, int physics, int chemistry)
+    {
+        this.math = math;
+        this.physics = physics;
+        this.chemistry = chemistry;
+    }
+
+    public virtual double CalculateAverage()
+    {
+        return (math + physics + chemistry) / 3.0;
+    }
+}
+
+public class GroupA : Group
+{
+    private int english;
+    private int history;
+
+    public GroupA(int math, int physics, int chemistry, int english, int history) : base(math, physics, chemistry)
+    {
+        this.english = english;
+        this.history = history;
+    }
+
+    public override double CalculateAverage()
+    {
+        return (math + physics + chemistry + english + history) / 5.0;
+    }
+}
+
+public class GroupB : Group
+{
+    private int biology;
+    private int geography;
+
+    public GroupB(int math, int physics, int chemistry, int biology, int geography) : base(math, physics, chemistry)
+    {
+        this.biology = biology;
+        this.geography = geography;
+    }
+
+    public override double CalculateAverage()
+    {
+        return (math + physics + chemistry + biology + geography) / 5.0;
+    }
+}
+
+public class GroupC : Group
+{
+    private int literature;
+    private int art;
+
+    public GroupC(int math, int physics, int chemistry, int literature, int art) : base(math, physics, chemistry)
+    {
+        this.literature = literature;
+        this.art = art;
+    }
+
+    public override double CalculateAverage()
+    {
+        return (math + physics + chemistry + literature + art) / 5.0;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        GroupA groupA = new GroupA(80, 75, 85, 90, 70);
+        GroupB groupB = new GroupB(85, 78, 88, 92, 82);
+        GroupC groupC = new GroupC(78, 72, 80, 85, 88);
+
+        Group[] groups = new Group[] { groupA, groupB, groupC };
+
+        Console.WriteLine("Студенты всех групп:");
+
+        foreach (Group group in groups)
+        {
+            Console.WriteLine($"Средний балл группы: {group.CalculateAverage()}");
+        }
+
+        Console.ReadKey();
+    }
+}
+
