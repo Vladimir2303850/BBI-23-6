@@ -1,0 +1,109 @@
+using System;
+
+class Person
+{
+    private string FirstName;
+    private string LastName;
+
+    public Person(string firstName, string lastName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    public static void Print(Athlete[] participants)
+    {
+        Console.WriteLine("\nТаблица участников (отсортировано по баллам):");
+        Console.WriteLine("--------------------------------------------------");
+        foreach (Athlete participant in participants)
+        {
+            Console.WriteLine($"ФИО: {participant.FirstName} {participant.LastName}, ID: {participant.ID}, Балл: {participant.Score}");
+        }
+    }
+
+
+    public static void QuickSort(Athlete[] arr, int left, int right)
+    {
+        if (left < right)
+        {
+            int i = left;
+            int j = right;
+            double pivot = arr[right].Score;
+
+            while (i <= j)
+            {
+                while (arr[i].Score < pivot) //слева вправо
+                    i++;
+                while (arr[j].Score > pivot) //справо влево
+                    j--;
+
+                if (i <= j)
+                {
+                    Athlete temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                    i++;
+                    j--;
+                }
+            }
+
+            if (left < j)
+                QuickSort(arr, left, j);
+            if (i < right)
+                QuickSort(arr, i, right);
+        }
+    }
+}
+
+class Athlete : Person
+{
+    private static int nextID = 1;
+    public int ID;
+    public double Score;
+
+    public Athlete(string firstName, string lastName, double score) : base(firstName, lastName)
+    {
+        ID = nextID++;
+        Score = score ;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите количество участников:");
+
+
+        int count = Convert.ToInt32(Console.ReadLine());
+
+        Athlete[] participants = new Athlete[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            Console.WriteLine($"\nУчастник {i + 1}:");
+            Console.WriteLine("Введите имя:");
+            string firstName = Console.ReadLine();
+            Console.WriteLine("Введите фамилию:");
+            string lastName = Console.ReadLine();
+            double score = -1;
+
+            while (score != 0 && score != 0.5 && score != 1)
+            {
+                Console.WriteLine("Введите оценку спортсмена (0; 0,5; 1):");
+                score = Convert.ToDouble(Console.ReadLine());
+                if (score != 0 && score != 0.5 && score != 1)
+                {
+                    Console.WriteLine("Пожалуйста, введите корректную оценку.");
+                }
+            }
+
+            participants[i] = new Athlete(firstName, lastName, score);
+        }
+
+        Person.QuickSort(participants, 0, participants.Length - 1);
+        Person.Print(participants);
+
+        Console.ReadKey();
+    }
+}
