@@ -1,0 +1,310 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions; 
+abstract class Task
+{
+    public Task(string text) { }
+    public abstract void ParseText(string text); // все разные
+
+}
+
+class Task_2 : Task
+{
+    private string _text;
+    public Task_2(string text) : base(text)
+    {
+        _text = text;
+    }
+    public override void ParseText(string text)
+    {
+        _text = ReverseString(text);
+    }
+    public override string ToString()
+    {
+        return _text;
+    }
+    private string ReverseString(string s)
+    {
+        char[] charArray = s.ToCharArray();
+        Array.Reverse(charArray);
+        return new string(charArray);
+    }
+}
+
+class Task_4 : Task
+{
+    private string _text;
+    private int _difficulty;
+    public Task_4(string text) : base(text)
+    {
+        _text = text;
+    }
+    public override void ParseText(string text)
+    {
+        _difficulty = 0;
+        char[] chartext = text.ToCharArray();
+        foreach(char c in chartext) 
+        {
+            if (Char.IsPunctuation(c))
+            {
+                _difficulty++;
+            }
+            else if (Char.IsWhiteSpace(c))
+            {
+                _difficulty++;
+            }
+        }
+    }
+    public override string ToString()
+    {
+        return $"Сложность предложения: {_difficulty}";
+    }
+}
+
+class Task_6 : Task
+{
+    private string _text;
+    private int[] _syllablesCount;
+
+    public Task_6(string text) : base(text)
+    {
+        _text = text;
+    }
+
+    public override void ParseText(string text)
+    {
+        _syllablesCount = new int[text.Length];
+
+        string[] words = text.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+        foreach (string word in words)
+        {
+            int syllables = 0;
+            bool isVowel = false;
+            foreach (char letter in word)
+            {
+                if (IsVowel(letter))
+                {
+                    if (!isVowel)
+                    {
+                        syllables++;
+                        isVowel = true;
+                    }
+                }
+                else
+                {
+                    isVowel = false;
+                }
+            }
+
+            _syllablesCount[syllables]++;
+        }
+    }
+
+    private bool IsVowel(char letter)
+    {
+        return "аеёиоуыэюя".Contains(letter.ToString().ToLower());
+    }
+
+    public override string ToString()
+    {
+        string result = "";
+        for (int i = 0; i < _syllablesCount.Length; i++)
+        {
+            result += $"{i + 1}-сложных слов: {_syllablesCount[i]} \n";
+        }
+
+        return result;
+    }
+}
+
+class Task_8 : Task
+{
+    private string _text;
+    public Task_8(string text) : base(text) { }
+    public override string ToString()
+    {
+        return _text;
+    }
+    public override void ParseText(string text)
+    {
+        string[] words = text.Split();
+        List<string> list_lines = new List<string>();
+        string currentLine = "";
+        foreach (string word in words)
+        {
+            if (currentLine.Length + word.Length > 50)
+            {
+                list_lines.Add(currentLine);
+                currentLine = "";
+            }
+            currentLine += word + " ";
+        }
+        list_lines.Add(currentLine);
+        for (int i = 0; i < list_lines.Count; i++)
+        {
+            if (list_lines[i].Length > 0)
+            {
+                list_lines[i] = list_lines[i].Remove(list_lines[i].Length - 1);
+                list_lines[i] = ParseLine(list_lines[i]);
+                list_lines[i] += "\n";
+            }
+        }
+        foreach (string line in list_lines)
+        {
+            _text += line;
+        }
+    }
+    public string ParseLine(string line)
+    {
+        string[] all_words = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        int spaces_fill = 50 - line.Length; // Количество пробелов, которые нужно добавить
+        if (all_words.Length > 1)
+        {
+            int add_spaces = spaces_fill / (all_words.Length - 1); // Количество пробелов между каждым словом для добавления
+            int extraSpaces = spaces_fill % (all_words.Length - 1); //  Количество дополнительных пробелов (аналог по ширине)
+            for (int i = 0; i < all_words.Length - 1; i++)
+            {
+                all_words[i] += new string(' ', add_spaces);
+                if (extraSpaces > 0)
+                {
+                    all_words[i] += ' ';
+                    extraSpaces--;
+                }
+            }
+        }
+        return string.Join(" ", all_words); // Склеиваем
+    }
+}
+
+class Task_9 : Task // сжатие текста с помощью кодов
+{
+    private string _text;
+    public string crypted_text;
+    private Dictionary<string, string> _codes; // словарь для соответствий
+    public Task_9(string text) : base(text)
+    {
+        _text = text;
+        _codes = new Dictionary<string, string>(); 
+    }
+    public override string ToString() 
+    {
+        return _text;
+    }
+    public override void ParseText(string text)
+    {
+        var sequences = new Dictionary<string, int>(); // словарь для счета
+        for (int i = 0; i < text.Length - 1; i++)
+        {
+            var sequence = text.Substring(i, 2); // пара из двух символов
+            if (!sequences.ContainsKey(sequence)) // отсутствует ли пара из букв в тексте
+            {
+                sequences[sequence] = 0;
+            }
+            sequences[sequence]++;
+        }
+        char code = '!';
+        foreach (var sequence in sequences)
+        {
+            if (!_codes.ContainsKey(sequence.Key)) // отсутствует ли ключ sequence.Key в словаре _codes
+            {
+                _codes[sequence.Key] = code.ToString();
+                code++;
+            }
+        }
+    }
+    public void EncodeText()
+    {
+        foreach (var codePair in _codes)
+        {
+            _text = _text.Replace(codePair.Key, codePair.Value);
+        }
+        crypted_text = _text;
+    }
+}
+
+
+class Task_10 : Task
+{
+    private string _text;
+    private Dictionary<string, string> _codes; // словарь для соответствий
+    public Task_10(string text) : base(text)
+    {
+        _text = text;
+        _codes = new Dictionary<string, string>();
+    }
+    public override string ToString()
+    {
+        return _text;
+    }
+    public override void ParseText(string text)
+    {
+        var sequences = new Dictionary<string, int>(); // словарь для счета
+        for (int i = 0; i < text.Length - 1; i++)
+        {
+            var sequence = text.Substring(i, 2); // пара из двух символов
+            if (!sequences.ContainsKey(sequence)) // отсутствует ли пара из букв в тексте
+            {
+                sequences[sequence] = 0;
+            }
+            sequences[sequence]++;
+        }
+        char code = '!'; 
+        foreach (var sequence in sequences)
+        {
+            if (!_codes.ContainsKey(sequence.Key)) // отсутствует ли ключ sequence.Key в словаре _codes
+            {
+                _codes[sequence.Key] = code.ToString();
+                code++;
+            }
+        }
+    }
+    public void DecodeText()
+    {
+        foreach (var codePair in _codes)
+        {
+            _text = _text.Replace(codePair.Value, codePair.Value);
+        }
+    }
+}
+class Program
+{
+    public static void Main()
+    {
+        string text = "Первое кругосветное путешествие было осуществлено флотом, возглавляемым португальским исследователем Фернаном Магелланом. Путешествие началось 20 сентября 1519 года, когда флот, состоящий из пяти кораблей и примерно 270 человек, отправился из порту Сан-Лукас в Испании. Хотя Магеллан не закончил свое путешествие из-за гибели в битве на Филиппинах в 1521 году, его экспедиция стала первой, которая успешно обогнула Землю и доказала ее круглую форму. Это путешествие открыло новые морские пути и имело огромное значение для картографии и географических открытий.";
+
+        Task_2 task2 = new Task_2(text);
+        task2.ParseText(text);
+        Console.WriteLine(task2.ToString()); 
+
+        Task_4 task4 = new Task_4(text);
+        task4.ParseText(text);
+        Console.WriteLine(task4.ToString()); 
+
+        Task_6 task6 = new Task_6(text);
+        task6.ParseText(text);
+        Console.WriteLine(task6.ToString()); 
+
+        Task_8 task8 = new Task_8(text);
+        task8.ParseText(text);
+        Console.WriteLine(task8.ToString());
+
+        Task_9 task9 = new Task_9(text);
+        task9.ParseText(text);
+        task9.EncodeText();
+        Console.WriteLine("Зашифрованный текст:");
+        Console.WriteLine(task9.ToString());
+
+        Console.WriteLine();
+
+        Task_10 task10 = new Task_10(text);
+        task10.ParseText(text);
+        task10.DecodeText();
+        Console.WriteLine("Расшифрованный текст:");
+        Console.WriteLine(task10.ToString());
+        Console.ReadKey();
+    }
+}
+
