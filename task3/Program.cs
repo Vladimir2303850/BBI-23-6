@@ -24,8 +24,6 @@ namespace ConsoleApp11
         protected int math;
         protected int physics;
         protected int chemistry;
-        protected int AddtionalClass_1;
-        protected int AddtionalClass_2;
         [ProtoMember(4)]
         public int Math
         {
@@ -44,18 +42,6 @@ namespace ConsoleApp11
             get { return chemistry; }
             set { chemistry = value; }
         } // свойство только для чтения, которое возвращает значение поля
-        [ProtoMember(7)]
-        public int Additional_1
-        {
-            get { return AddtionalClass_1; }
-            set { AddtionalClass_1 = value; }
-        } // свойство только для чтения, которое возвращает значение поля
-        [ProtoMember(8)]
-        public int Additional_2
-        {
-            get { return AddtionalClass_2; }
-            set { AddtionalClass_2 = value; }
-        } // свойство только для чтения, которое возвращает значение поля
         public Group() { }
         [JsonConstructor]
         public Group(int math, int physics, int chemistry)
@@ -63,14 +49,6 @@ namespace ConsoleApp11
             this.math = math;
             this.physics = physics;
             this.chemistry = chemistry;
-        }
-        public Group(int math, int physics, int chemistry, int additional_1, int additional_2)
-        {
-            this.math = math;
-            this.physics = physics;
-            this.chemistry = chemistry;
-            this.AddtionalClass_1 = additional_1;
-            this.AddtionalClass_2 = additional_2;
         }
 
         public virtual double CalculateAverage()
@@ -87,60 +65,108 @@ namespace ConsoleApp11
     [Serializable]
     public class GroupA : Group
     {
+        protected int english;
+        [ProtoMember(7)]
+        public int English
+        {
+            get { return english; }
+            set { english = value; }
+        } // свойство только для чтения, которое возвращает значение поля
+        protected int history;
+        [ProtoMember(8)]
+        public int History
+        {
+            get { return history; }
+            set { history = value; }
+        } // свойство только для чтения, которое возвращает значение поля
         public GroupA() : base() { }
         [JsonConstructor]
-        public GroupA(int math, int physics, int chemistry, int english, int history) : base(math, physics, chemistry, english, history)
+        public GroupA(int math, int physics, int chemistry, int english, int history) : base(math, physics, chemistry)
         {
+            this.english = english;
+            this.history = history;
         }
 
         public override double CalculateAverage()
         {
-            return (math + physics + chemistry + Additional_1 + Additional_2) / 5.0;
+            return (math + physics + chemistry + english + history) / 5.0;
         }
 
         public override void Print()
         {
-            Console.WriteLine($"Математика: {math}, Физика: {physics}, Химия: {chemistry}, Английский: {Additional_1}, История: {Additional_2}");
+            Console.WriteLine($"Математика: {math}, Физика: {physics}, Химия: {chemistry}, Английский: {english}, История: {history}");
         }
     }
     [ProtoContract]
     [Serializable]
     public class GroupB : Group
     {
+        protected int biology;
+        [ProtoMember(9)]
+        public int Biology
+        {
+            get { return biology; }
+            set { biology = value; }
+        } // свойство только для чтения, которое возвращает значение поля
+        protected int geography;
+        [ProtoMember(10)]
+        public int Geography
+        {
+            get { return geography; }
+            set { geography = value; }
+        } // свойство только для чтения, которое возвращает значение поля
         public GroupB() : base() { }
         [JsonConstructor]
-        public GroupB(int math, int physics, int chemistry, int biology, int geography) : base(math, physics, chemistry, biology, geography)
+        public GroupB(int math, int physics, int chemistry, int biology, int geography) : base(math, physics, chemistry)
         {
+            this.biology = biology;
+            this.geography = geography;
         }
 
         public override double CalculateAverage()
         {
-            return (math + physics + chemistry + Additional_1 + Additional_2) / 5.0;
+            return (math + physics + chemistry + biology + geography) / 5.0;
         }
 
         public override void Print()
         {
-            Console.WriteLine($"Математика: {math}, Физика: {physics}, Химия: {chemistry}, Биология: {Additional_1}, География: {Additional_2}");
+            Console.WriteLine($"Математика: {math}, Физика: {physics}, Химия: {chemistry}, Биология: {biology}, География: {geography}");
         }
     }
     [ProtoContract]
     [Serializable]
     public class GroupC : Group
     {
+        protected int literature;
+        [ProtoMember(11)]
+        public int Literature
+        {
+            get { return literature; }
+            set { literature = value; }
+        } // свойство только для чтения, которое возвращает значение поля
+        protected int art;
+        [ProtoMember(12)]
+        public int Art
+        {
+            get { return art; }
+            set { art = value; }
+        } // свойство только для чтения, которое возвращает значение поля
         public GroupC() : base() { }
         [JsonConstructor]
-        public GroupC(int math, int physics, int chemistry, int literature, int art) : base(math, physics, chemistry, literature, art)
+        public GroupC(int math, int physics, int chemistry, int literature, int art) : base(math, physics, chemistry)
         {
+            this.literature = literature;
+            this.art = art;
         }
 
         public override double CalculateAverage()
         {
-            return (math + physics + chemistry + Additional_1 + Additional_2) / 5.0;
+            return (math + physics + chemistry + literature + art) / 5.0;
         }
 
         public override void Print()
         {
-            Console.WriteLine($"Математика: {math}, Физика: {physics}, Химия: {chemistry}, Литература: {Additional_1}, Рисование: {Additional_2}");
+            Console.WriteLine($"Математика: {math}, Физика: {physics}, Химия: {chemistry}, Литература: {literature}, Рисование: {art}");
         }
     }
 
@@ -152,6 +178,14 @@ namespace ConsoleApp11
             GroupB groupB = new GroupB(85, 78, 88, 92, 82);
             GroupC groupC = new GroupC(78, 72, 80, 85, 88);
             Group[] groups = new Group[] { groupA, groupB, groupC };
+
+
+            GroupA[] groups_a = new GroupA[]
+            {
+                new GroupA(85, 75, 90, 85, 75),
+                new GroupA(65, 70, 75, 80, 65),
+                new GroupA(66, 74, 88, 95, 78)
+            };
             Console.WriteLine("Студенты всех групп:");
 
             foreach (Group group in groups)
@@ -178,18 +212,25 @@ namespace ConsoleApp11
                 "group.bin"
             };
 
-            for (int i = 0; i < serializers.Length; i++)
+            for (int i = 1; i < serializers.Length; i++)
             {
                 serializers[i].Write(groups, Path.Combine(path, files[i]));
             }
 
-            for (int i = 0; i < serializers.Length; i++)
+            for (int i = 1; i < serializers.Length; i++)
             {
                 groups = serializers[i].Read<Group[]>(Path.Combine(path, files[i]));
                 foreach (Group group in groups)
                 {
                     group.Print();
                 }
+            }
+            Console.WriteLine("\n Json отдельно:\n");
+            serializers[0].Write(groups_a, Path.Combine(path, files[0]));
+            groups_a = serializers[0].Read<GroupA[]>(Path.Combine(path, files[0]));
+            foreach (var group in groups_a)
+            {
+                group.Print();
             }
             Console.ReadKey();
         }
