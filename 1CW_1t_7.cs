@@ -30,7 +30,7 @@ namespace ConsoleApp1
         }
         public void Print()
         {
-            Console.WriteLine($"Артикул: {_artikul}, Название товара:{_name}, Цена: {_price}, Количество товаров: {_quantity}");
+            Console.WriteLine($"Артикул: {_artikul}, Название товара: {_name}, Цена: {_price}, Количество товаров: {_quantity}");
         }
         public static void SortByPrice(Goods[] goods)
         {
@@ -38,7 +38,7 @@ namespace ConsoleApp1
             {
                 for (int j = 0; j < goods.Length - i - 1; j++)
                 {
-                    if (goods[j].Price > goods[j + 1].Price)
+                    if (goods[j].Price < goods[j + 1].Price)
                     {
                         Goods temp = goods[j];
                         goods[j] = goods[j + 1];
@@ -58,7 +58,7 @@ namespace ConsoleApp1
             Goods good3 = new Goods("Мышка", 1000, 30);
             Goods good4 = new Goods("Листик", 5, 1000);
             Goods good5 = new Goods("Кнопка", 50, 800);
-            Goods[] goods = new Goods[] {good1, good2, good3, good4, good5};
+            Goods[] goods = new Goods[] { good1, good2, good3, good4, good5 };
             Goods.SortByPrice(goods);
             for (int i = 0; i < goods.Length; i++)
             {
